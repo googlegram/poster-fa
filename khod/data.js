@@ -18,8 +18,226 @@ window.TEST_DATA = {
     { id: 'responsibility', label: 'مسئولیت‌پذیری', color: '#14b8a6' }
   ],
   questions: [
-    // ... تمام ۳۰ سوال شما اینجا قرار می‌گیرد ...
-    // (محتوای سوالات را از فایل خودتان کپی کنید)
+    {
+      id: 1,
+      text: 'یک ایده جدید پیدا کرده‌اید که احساس می‌کنید می‌تواند موفق شود. چه می‌کنید؟',
+      options: [
+        {
+          label: 'اول بازار، هزینه و امکان اجرا را بررسی می‌کنم.',
+          scores: { focus: 4, dream: 2, perfection: 2, resist: 1, insist: 1, prove: 1, feedback: 2, persist: 3, routine: 3, learn: 2, decision: 4, responsibility: 3 }
+        },
+        {
+          label: 'سریع شروع می‌کنم و در مسیر یاد می‌گیرم.',
+          scores: { focus: 2, dream: 4, perfection: 1, resist: 1, insist: 2, prove: 2, feedback: 2, persist: 3, routine: 2, learn: 4, decision: 2, responsibility: 2 }
+        },
+        {
+          label: 'برای دیگران توضیح می‌دهم چرا این ایده عالی است.',
+          scores: { focus: 1, dream: 3, perfection: 2, resist: 3, insist: 3, prove: 4, feedback: 1, persist: 2, routine: 2, learn: 1, decision: 1, responsibility: 1 }
+        },
+        {
+          label: 'همزمان چند ایده دیگر را هم بررسی می‌کنم.',
+          scores: { focus: 1, dream: 4, perfection: 1, resist: 1, insist: 2, prove: 2, feedback: 1, persist: 1, routine: 4, learn: 2, decision: 1, responsibility: 1 }
+        }
+      ]
+    },
+    {
+      id: 2,
+      text: 'پروژه‌ای را شروع کرده‌اید اما به مرحلهٔ خسته‌کننده رسیده‌اید. واکنش شما؟',
+      options: [
+        {
+          label: 'با برنامه‌ریزی روزانه ادامه می‌دهم تا تمام شود.',
+          scores: { focus: 4, dream: 2, perfection: 2, resist: 1, insist: 1, prove: 1, feedback: 2, persist: 4, routine: 2, learn: 2, decision: 3, responsibility: 4 }
+        },
+        {
+          label: 'احتمالاً پروژه جدید جذاب‌تری شروع می‌کنم.',
+          scores: { focus: 1, dream: 4, perfection: 1, resist: 1, insist: 2, prove: 2, feedback: 1, persist: 1, routine: 4, learn: 1, decision: 1, responsibility: 1 }
+        },
+        {
+          label: 'چند روزی می‌گذارم تا دوباره انگیزه بگیرم.',
+          scores: { focus: 2, dream: 2, perfection: 2, resist: 2, insist: 1, prove: 1, feedback: 2, persist: 2, routine: 3, learn: 2, decision: 2, responsibility: 2 }
+        },
+        {
+          label: 'از کسی که این کار را انجام داده مشورت می‌گیرم.',
+          scores: { focus: 3, dream: 2, perfection: 3, resist: 1, insist: 1, prove: 1, feedback: 4, persist: 3, routine: 2, learn: 4, decision: 4, responsibility: 3 }
+        }
+      ]
+    },
+    {
+      id: 3,
+      text: 'نتیجهٔ کار شما انتقاد شده. چه احساسی دارید؟',
+      options: [
+        {
+          label: 'با دقت گوش می‌دهم و نقاط بهبود را یادداشت می‌کنم.',
+          scores: { focus: 3, dream: 2, perfection: 3, resist: 1, insist: 1, prove: 1, feedback: 4, persist: 3, routine: 2, learn: 4, decision: 3, responsibility: 4 }
+        },
+        {
+          label: 'فکر می‌کنم منتقد متوجه زوایای کار من نشده است.',
+          scores: { focus: 2, dream: 2, perfection: 3, resist: 4, insist: 4, prove: 3, feedback: 1, persist: 2, routine: 1, learn: 1, decision: 1, responsibility: 1 }
+        },
+        {
+          label: 'بحث می‌کنم تا نظر خود را ثابت کنم.',
+          scores: { focus: 1, dream: 1, perfection: 2, resist: 4, insist: 4, prove: 4, feedback: 1, persist: 1, routine: 1, learn: 1, decision: 1, responsibility: 1 }
+        },
+        {
+          label: 'بازخورد را می‌پذیرم ولی در عمل کمتر تغییر می‌دهم.',
+          scores: { focus: 2, dream: 2, perfection: 2, resist: 3, insist: 2, prove: 2, feedback: 2, persist: 2, routine: 2, learn: 2, decision: 2, responsibility: 2 }
+        }
+      ]
+    },
+    {
+      id: 4,
+      text: 'چقدر به نظر متخصص در حوزه‌ای که تخصص ندارید اعتماد می‌کنید؟',
+      options: [
+        {
+          label: 'کاملاً به متخصص اعتماد دارم و سوال می‌پرسم.',
+          scores: { focus: 3, dream: 2, perfection: 2, resist: 1, insist: 1, prove: 1, feedback: 4, persist: 2, routine: 2, learn: 4, decision: 4, responsibility: 3 }
+        },
+        {
+          label: 'اغلب نظر خود را مهم‌تر می‌دانم.',
+          scores: { focus: 2, dream: 3, perfection: 2, resist: 4, insist: 4, prove: 3, feedback: 1, persist: 2, routine: 1, learn: 1, decision: 1, responsibility: 1 }
+        },
+        {
+          label: 'نظر متخصص را می‌شنوم اما بررسی شخصی هم انجام می‌دهم.',
+          scores: { focus: 3, dream: 2, perfection: 3, resist: 2, insist: 2, prove: 2, feedback: 3, persist: 3, routine: 2, learn: 3, decision: 3, responsibility: 3 }
+        },
+        {
+          label: 'ترجیح می‌دهم خودم همه چیز را یاد بگیرم.',
+          scores: { focus: 3, dream: 3, perfection: 3, resist: 3, insist: 3, prove: 2, feedback: 2, persist: 3, routine: 2, learn: 4, decision: 2, responsibility: 2 }
+        }
+      ]
+    },
+    {
+      id: 5,
+      text: 'در یک بحث گروهی، نظر شما با اکثریت مخالف است. چه می‌کنید؟',
+      options: [
+        {
+          label: 'با احترام نظر خود را می‌گویم و به جمع گوش می‌دهم.',
+          scores: { focus: 3, dream: 2, perfection: 2, resist: 2, insist: 2, prove: 2, feedback: 3, persist: 2, routine: 2, learn: 3, decision: 3, responsibility: 3 }
+        },
+        {
+          label: 'سعی می‌کنم همه را قانع کنم که حق با من است.',
+          scores: { focus: 1, dream: 2, perfection: 2, resist: 4, insist: 4, prove: 4, feedback: 1, persist: 1, routine: 1, learn: 1, decision: 1, responsibility: 1 }
+        },
+        {
+          label: 'سکوت می‌کنم اما در ذهن خود به نظر پایبند می‌مانم.',
+          scores: { focus: 2, dream: 2, perfection: 2, resist: 3, insist: 3, prove: 2, feedback: 1, persist: 1, routine: 2, learn: 1, decision: 1, responsibility: 1 }
+        },
+        {
+          label: 'نظر جمع را می‌پذیرم و بعداً بررسی می‌کنم.',
+          scores: { focus: 3, dream: 2, perfection: 2, resist: 1, insist: 1, prove: 1, feedback: 4, persist: 2, routine: 2, learn: 4, decision: 4, responsibility: 3 }
+        }
+      ]
+    },
+    {
+      id: 6,
+      text: 'چند پروژه نیمه‌تمام دارید؟',
+      options: [
+        {
+          label: 'هیچکدام، هر پروژه را به سرانجام می‌رسانم.',
+          scores: { focus: 4, dream: 2, perfection: 3, resist: 1, insist: 1, prove: 1, feedback: 2, persist: 4, routine: 3, learn: 2, decision: 3, responsibility: 4 }
+        },
+        {
+          label: '۱ یا ۲ پروژه که به دلایل موجه متوقف شده.',
+          scores: { focus: 3, dream: 2, perfection: 2, resist: 2, insist: 1, prove: 1, feedback: 2, persist: 3, routine: 3, learn: 2, decision: 3, responsibility: 3 }
+        },
+        {
+          label: 'بیش از ۵ پروژه شروع کرده و رها کرده‌ام.',
+          scores: { focus: 1, dream: 4, perfection: 1, resist: 1, insist: 2, prove: 2, feedback: 1, persist: 1, routine: 4, learn: 1, decision: 1, responsibility: 1 }
+        },
+        {
+          label: 'بعضی‌ها را به دلیل تغییر اولویت رها می‌کنم.',
+          scores: { focus: 2, dream: 3, perfection: 1, resist: 1, insist: 1, prove: 1, feedback: 1, persist: 2, routine: 3, learn: 1, decision: 2, responsibility: 2 }
+        }
+      ]
+    },
+    {
+      id: 7,
+      text: 'برای یک کار تکراری چه رویکردی دارید؟',
+      options: [
+        {
+          label: 'سیستمی برای انجام منظم و خودکار آن ایجاد می‌کنم.',
+          scores: { focus: 4, dream: 2, perfection: 3, resist: 1, insist: 1, prove: 1, feedback: 2, persist: 4, routine: 2, learn: 3, decision: 3, responsibility: 4 }
+        },
+        {
+          label: 'انجامش می‌دهم اما از آن بیزارم.',
+          scores: { focus: 2, dream: 2, perfection: 1, resist: 2, insist: 1, prove: 1, feedback: 1, persist: 2, routine: 1, learn: 1, decision: 2, responsibility: 2 }
+        },
+        {
+          label: 'به شخص دیگری واگذار می‌کنم.',
+          scores: { focus: 1, dream: 2, perfection: 1, resist: 2, insist: 2, prove: 2, feedback: 1, persist: 1, routine: 4, learn: 1, decision: 1, responsibility: 1 }
+        },
+        {
+          label: 'با انجام همزمان کار دیگر، از آن فرار می‌کنم.',
+          scores: { focus: 1, dream: 4, perfection: 1, resist: 1, insist: 1, prove: 2, feedback: 1, persist: 1, routine: 4, learn: 1, decision: 1, responsibility: 1 }
+        }
+      ]
+    },
+    {
+      id: 8,
+      text: 'وقتی با شکست مواجه می‌شوید، اولین واکنش شما؟',
+      options: [
+        {
+          label: 'علت را بررسی می‌کنم و نقش خود را می‌پذیرم.',
+          scores: { focus: 3, dream: 2, perfection: 2, resist: 1, insist: 1, prove: 1, feedback: 3, persist: 3, routine: 2, learn: 4, decision: 3, responsibility: 4 }
+        },
+        {
+          label: 'شرایط و دیگران را مقصر می‌دانم.',
+          scores: { focus: 1, dream: 1, perfection: 1, resist: 4, insist: 3, prove: 3, feedback: 1, persist: 1, routine: 1, learn: 1, decision: 1, responsibility: 1 }
+        },
+        {
+          label: 'ناامید می‌شوم ولی بعداً دوباره تلاش می‌کنم.',
+          scores: { focus: 2, dream: 3, perfection: 2, resist: 2, insist: 2, prove: 1, feedback: 2, persist: 3, routine: 2, learn: 2, decision: 2, responsibility: 2 }
+        },
+        {
+          label: 'سریع به سراغ ایدهٔ جدید می‌روم.',
+          scores: { focus: 1, dream: 4, perfection: 1, resist: 1, insist: 1, prove: 1, feedback: 1, persist: 1, routine: 4, learn: 1, decision: 1, responsibility: 1 }
+        }
+      ]
+    },
+    {
+      id: 9,
+      text: 'آموزش جدیدی را شروع می‌کنید، چگونه عمل می‌کنید؟',
+      options: [
+        {
+          label: 'همزمان با یادگیری، یک پروژه عملی اجرا می‌کنم.',
+          scores: { focus: 3, dream: 2, perfection: 2, resist: 1, insist: 1, prove: 1, feedback: 2, persist: 3, routine: 2, learn: 4, decision: 3, responsibility: 3 }
+        },
+        {
+          label: 'دوره‌های زیادی را شروع می‌کنم اما کامل نمی‌کنم.',
+          scores: { focus: 1, dream: 3, perfection: 1, resist: 1, insist: 2, prove: 2, feedback: 1, persist: 1, routine: 4, learn: 4, decision: 1, responsibility: 1 }
+        },
+        {
+          label: 'تمام وقت را صرف مطالعه می‌کنم بدون اقدام.',
+          scores: { focus: 2, dream: 3, perfection: 2, resist: 1, insist: 1, prove: 1, feedback: 1, persist: 2, routine: 3, learn: 4, decision: 1, responsibility: 1 }
+        },
+        {
+          label: 'با یک متخصص مشورت می‌کنم و سپس شروع می‌کنم.',
+          scores: { focus: 4, dream: 2, perfection: 3, resist: 1, insist: 1, prove: 1, feedback: 4, persist: 3, routine: 2, learn: 3, decision: 4, responsibility: 3 }
+        }
+      ]
+    },
+    {
+      id: 10,
+      text: 'تصمیم مهمی پیش رو دارید. رویکرد شما؟',
+      options: [
+        {
+          label: 'تحقیق کامل، سپس تصمیم و اجرا.',
+          scores: { focus: 4, dream: 2, perfection: 4, resist: 1, insist: 1, prove: 1, feedback: 2, persist: 3, routine: 2, learn: 3, decision: 4, responsibility: 4 }
+        },
+        {
+          label: 'سریع تصمیم می‌گیرم و بعداً اصلاح می‌کنم.',
+          scores: { focus: 2, dream: 3, perfection: 1, resist: 1, insist: 2, prove: 2, feedback: 2, persist: 2, routine: 2, learn: 3, decision: 2, responsibility: 2 }
+        },
+        {
+          label: 'آنقدر بررسی می‌کنم که زمان از دست می‌رود.',
+          scores: { focus: 2, dream: 2, perfection: 4, resist: 2, insist: 1, prove: 1, feedback: 1, persist: 1, routine: 1, learn: 2, decision: 1, responsibility: 1 }
+        },
+        {
+          label: 'از چند نفر با تجربه نظر می‌خواهم.',
+          scores: { focus: 3, dream: 2, perfection: 3, resist: 1, insist: 1, prove: 1, feedback: 4, persist: 3, routine: 2, learn: 3, decision: 4, responsibility: 3 }
+        }
+      ]
+    }
   ],
   analysis: {
     strengths: {
@@ -109,6 +327,4 @@ window.TEST_DATA = {
   }
 };
 
-// خط برای اطمینان از اینکه متغیر در دسترس است
-console.log('✅ data.js بارگذاری شد!', TEST_DATA.title);
-
+console.log('✅ data.js بارگذاری شد!', window.TEST_DATA.title);

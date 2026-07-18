@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  <title>آزمون خودشناسی · حمیدرضا شیرازی</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+    }
+    body {
+      background: linear-gradient(145deg, #f7f9fc 0%, #eef2f7 100%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+    .container {
+      max-width: 720px;
+      width: 100%;
+      background: rgba(255,255,255,0.7);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-radius: 48px;
+      box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25), 0 0 0 1px rgba(255,255,255,0.5);
+      padding: 28px 24px 32px;
+      transition: all 0.2s ease;
+    }
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      border-bottom: 1px solid rgba(0,0,0,0.05);
+      padding-bottom: 16px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+    }
+    .header h1 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #1e293b, #334155);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      letter-spacing: -0.5px;
+    }
+    .header .badge {
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: #475569;
+      background: #e2e8f0;
+      padding: 6px 14px;
+      border-radius: 40px;
+      white-space: nowrap;
+      backdrop-filter: blur(4px);
+      border: 1px solid rgba(255,255,255,0.4);
+    }
+    .header .badge i {
+      font-style: normal;
+      background: #1e293b;
+      color: white;
+      padding: 2px 10px;
+      border-radius: 30px;
+      margin-right: 4px;
+      font-size: 0.7rem;
+    }
+    .progress-bar {
+      background: #e9edf3;
+      height: 6px;
+      border-radius: 20px;
+      margin: 16px 0 22px;
+      overflow: hidden;
+      box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
+    }
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+      border-radius: 20px;
+      transition: width 0.3s ease;
+    }
+    .question-counter {
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: #475569;
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 6px;
+    }
+    .screen {
+      display: block;
+      animation: fade 0.25s ease;
+    }
+    .screen.hidden {
+      display: none;
+    }
+    @keyframes fade {
+      0% { opacity: 0.5; transform: translateY(10px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+    .welcome h2 {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: #0f172a;
+      margin-bottom: 12px;
+    }
+    .welcome p {
+      color: #334155;
+      line-height: 1.7;
+      font-size: 1rem;
+      margin-bottom: 18px;
+    }
+    .welcome .meta {
+      background: #f1f5f9;
+      padding: 14px 18px;
+      border-radius: 28px;
+      font-size: 0.9rem;
+      color: #1e293b;
+      border-right: 4px solid #8b5cf6;
+      margin: 20px 0;
+    }
+    .btn-primary {
+      background: #0f172a;
+      color: white;
+      border: none;
+      padding: 16px 32px;
+      border-radius: 60px;
+      font-weight: 600;
+      font-size: 1.1rem;
+      width: 100%;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: 0 8px 18px -8px rgba(15,23,42,0.2);
+    }
+    .btn-primary:active { transform: scale(0.96); }
+    .btn-primary:focus-visible { outline: 2px solid #8b5cf6; }
+    .question-text {
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: #0f172a;
+      line-height: 1.6;
+      margin-bottom: 24px;
+      min-height: 4rem;
+    }
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 28px;
+    }
+    .option-btn {
+      background: white;
+      border: 1px solid #e2e8f0;
+      border-radius: 40px;
+      padding: 16px 22px;
+      font-size: 1rem;
+      text-align: right;
+      font-weight: 500;
+      color: #1e293b;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+      transition: all 0.15s ease;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      backdrop-filter: blur(4px);
+      background: rgba(255,255,255,0.7);
+    }
+    .option-btn:active { transform: scale(0.97); background: #f1f5f9; }
+    .option-btn.selected {
+      border-color: #8b5cf6;
+      background: #f5f3ff;
+      box-shadow: 0 0 0 3px rgba(139,92,246,0.15);
+    }
+    .option-btn .letter {
+      display: inline-flex;
+      width: 34px;
+      height: 34px;
+      background: #eef2f6;
+      border-radius: 40px;
+      justify-content: center;
+      align-items: center;
+      font-weight: 700;
+      color: #1e293b;
+      flex-shrink: 0;
+    }
+    .option-btn.selected .letter {
+      background: #8b5cf6;
+      color: white;
+    }
+    .nav-buttons {
+      display: flex;
+      gap: 12px;
+      margin-top: 12px;
+    }
+    .btn-secondary {
+      background: transparent;
+      border: 1px solid #cbd5e1;
+      padding: 14px 10px;
+      border-radius: 60px;
+      font-weight: 500;
+      color: #334155;
+      flex: 1;
+      cursor: pointer;
+      transition: 0.15s;
+    }
+    .btn-secondary:active { background: #e2e8f0; }
+    .btn-primary.small {
+      flex: 2;
+      padding: 14px 10px;
+      font-size: 1rem;
+    }
+    .btn-primary:disabled {
+      opacity: 0.4;
+      pointer-events: none;
+      filter: grayscale(0.3);
+    }
+    .result-container {
+      padding: 4px 0;
+    }
+    .result-container h2 {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: #0f172a;
+      margin-bottom: 8px;
+    }
+    .result-sub {
+      color: #475569;
+      border-bottom: 1px solid #e2e8f0;
+      padding-bottom: 16px;
+      margin-bottom: 22px;
+    }
+    .chart-item {
+      margin-bottom: 22px;
+    }
+    .chart-label {
+      display: flex;
+      justify-content: space-between;
+      font-weight: 500;
+      color: #1e293b;
+      font-size: 0.95rem;
+      margin-bottom: 5px;
+    }
+    .chart-track {
+      height: 10px;
+      background: #e9edf3;
+      border-radius: 30px;
+      overflow: hidden;
+      box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
+    }
+    .chart-fill {
+      height: 100%;
+      border-radius: 30px;
+      width: 0%;
+      background: linear-gradient(90deg, #3b82f6, #a78bfa);
+      transition: width 0.4s ease;
+    }
+    .profile-box {
+      background: #f8fafc;
+      padding: 20px 22px;
+      border-radius: 32px;
+      margin: 28px 0 18px;
+      border: 1px solid #e9edf3;
+    }
+    .profile-box h3 {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: #0f172a;
+      margin-bottom: 8px;
+    }
+    .profile-box p {
+      color: #334155;
+      line-height: 1.7;
+    }
+    .pill-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 12px;
+      margin: 18px 0 10px;
+    }
+    .pill {
+      background: #e9edf3;
+      padding: 6px 18px;
+      border-radius: 40px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: #1e293b;
+    }
+    .pill.green { background: #dcfce7; color: #166534; }
+    .pill.amber { background: #fef3c7; color: #92400e; }
+    .pill.purple { background: #ede9fe; color: #5b21b6; }
+    .suggestion {
+      background: #f1f5f9;
+      border-radius: 28px;
+      padding: 18px 22px;
+      margin: 20px 0 8px;
+      border-right: 5px solid #8b5cf6;
+    }
+    .suggestion strong { color: #0f172a; }
+    .flex-center { display: flex; justify-content: center; }
+    .mt-2 { margin-top: 18px; }
+    @media (max-width: 500px) {
+      .container { padding: 20px 16px; border-radius: 32px; }
+      .header h1 { font-size: 1.3rem; }
+      .question-text { font-size: 1.1rem; }
+      .option-btn { padding: 14px 16px; font-size: 0.95rem; }
+      .btn-primary { padding: 14px 20px; }
+    }
+  </style>
+</head>
+<body>
+<div class="container" id="app">
+  <div class="header">
+    <h1>🧠 خودشناسی</h1>
+    <span class="badge"><i>طراحی</i> حمیدرضا شیرازی</span>
+  </div>
+  <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+  <div class="question-counter" id="questionCounter">
+    <span>۰ از ۳۰</span>
+    <span id="qStatus">شروع</span>
+  </div>
+
+  <div id="welcomeScreen" class="screen welcome">
+    <h2>فاصلهٔ ایده، توانایی و واقعیت</h2>
+    <p>با پاسخ به ۳۰ سناریوی واقعی، الگوی رفتاری خود را کشف کنید. <br>هیچ پاسخ درست یا غلطی وجود ندارد.</p>
+    <div class="meta">⚡ ۱۲ محور سنجش · ۴ گزینه · گزارش شخصی</div>
+    <button class="btn-primary" id="startBtn">شروع آزمون</button>
+  </div>
+
+  <div id="questionScreen" class="screen hidden">
+    <div class="question-text" id="questionText">بارگذاری سوال...</div>
+    <div class="options" id="optionsContainer"></div>
+    <div class="nav-buttons">
+      <button class="btn-secondary" id="prevBtn">‹ قبلی</button>
+      <button class="btn-primary small" id="nextBtn">بعدی ›</button>
+    </div>
+  </div>
+
+  <div id="resultScreen" class="screen hidden">
+    <div class="result-container" id="resultContent"></div>
+    <div class="flex-center mt-2">
+      <button class="btn-primary" id="restartBtn" style="max-width:220px;">🔄 شروع مجدد</button>
+    </div>
+  </div>
+</div>
+
+<script src="data.js"></script>
+
+<script>
+  (function() {
+    const DATA = window.TEST_DATA;
+    if (!DATA) {
+      alert('خطا: فایل data.js بارگذاری نشد! لطفاً مطمئن شوید فایل data.js در کنار این فایل قرار دارد.');
+      return;
+    }
+
+    const questions = DATA.questions;
+    const totalQuestions = questions.length;
+    let currentIndex = 0;
+    let answers = new Array(totalQuestions).fill(null);
+
+    const welcomeScreen = document.getElementById('welcomeScreen');
+    const questionScreen = document.getElementById('questionScreen');
+    const resultScreen = document.getElementById('resultScreen');
+    const progressFill = document.getElementById('progressFill');
+    const questionCounter = document.getElementById('questionCounter');
+    const qStatus = document.getElementById('qStatus');
+    const questionText = document.getElementById('questionText');
+    const optionsContainer = document.getElementById('optionsContainer');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const startBtn = document.getElementById('startBtn');
+    const restartBtn = document.getElementById('restartBtn');
+    const resultContent = document.getElementById('resultContent');
+
+    function showScreen(screenId) {
+      document.querySelectorAll('.screen').forEach(s => s.classList.add('hidden'));
+      document.getElementById(screenId).classList.remove('hidden');
+    }
+
+    function updateProgress() {
+      const answered = answers.filter(a => a !== null).length;
+      const percent = (answered / totalQuestions) * 100;
+      progressFill.style.width = percent + '%';
+      document.querySelector('#questionCounter span:first-child').textContent = 
+        `${answered} از ${totalQuestions}`;
+      qStatus.textContent = answered === totalQuestions ? '✅ کامل' : 'در حال پاسخ‌دهی';
+    }
+
+    function renderQuestion(index) {
+      const q = questions[index];
+      if (!q) return;
+      
+      // استفاده از q.text به جای q.scenario
+      questionText.textContent = `${index + 1}. ${q.text}`;
+      
+      optionsContainer.innerHTML = '';
+      const letters = ['الف', 'ب', 'پ', 'ت'];
+      
+      q.options.forEach((opt, i) => {
+        const btn = document.createElement('button');
+        btn.className = 'option-btn';
+        if (answers[index] === i) btn.classList.add('selected');
+        btn.innerHTML = `<span class="letter">${letters[i]}</span> ${opt.label}`;
+        btn.dataset.index = i;
+        btn.addEventListener('click', function() {
+          selectOption(index, parseInt(this.dataset.index));
+        });
+        optionsContainer.appendChild(btn);
+      });
+
+      prevBtn.disabled = index === 0;
+      const isLast = index === totalQuestions - 1;
+      nextBtn.textContent = isLast ? 'مشاهده نتیجه' : 'بعدی ›';
+      nextBtn.disabled = answers[index] === null;
+
+      updateProgress();
+    }
+
+    function selectOption(qIndex, optIndex) {
+      answers[qIndex] = optIndex;
+      const buttons = optionsContainer.querySelectorAll('.option-btn');
+      buttons.forEach((btn, i) => {
+        btn.classList.toggle('selected', i === optIndex);
+      });
+      nextBtn.disabled = false;
+      updateProgress();
+    }
+
+    function goToNext() {
+      if (answers[currentIndex] === null) return;
+      if (currentIndex === totalQuestions - 1) {
+        showResult();
+        return;
+      }
+      currentIndex++;
+      renderQuestion(currentIndex);
+    }
+
+    function goToPrev() {
+      if (currentIndex === 0) return;
+      currentIndex--;
+      renderQuestion(currentIndex);
+    }
+
+    function calculateScores() {
+      const dims = DATA.dimensions;
+      const scores = {};
+      dims.forEach(d => scores[d.id] = 0);
+
+      for (let i = 0; i < totalQuestions; i++) {
+        const ans = answers[i];
+        if (ans === null) continue;
+        const q = questions[i];
+        const opt = q.options[ans];
+        if (!opt || !opt.scores) continue;
+        for (let key in opt.scores) {
+          if (scores.hasOwnProperty(key)) {
+            scores[key] += opt.scores[key];
+          }
+        }
+      }
+
+      for (let key in scores) {
+        scores[key] = Math.min(100, Math.round((scores[key] / 120) * 100));
+      }
+      return scores;
+    }
+
+    function findPattern(scores) {
+      const patterns = DATA.analysis.patterns;
+      for (let p of patterns) {
+        if (p.condition(scores)) {
+          return p;
+        }
+      }
+      return {
+        title: 'ترکیبی از ویژگی‌ها',
+        description: 'شما ترکیبی از ویژگی‌های مختلف دارید. برای شناخت بهتر، به نمودار امتیازات توجه کنید.'
+      };
+    }
+
+    function showResult() {
+      const scores = calculateScores();
+      const dims = DATA.dimensions;
+      const analysis = DATA.analysis;
+
+      let strengths = [];
+      let challenges = [];
+      for (let key in scores) {
+        if (scores[key] >= 70) strengths.push(key);
+        else if (scores[key] <= 40) challenges.push(key);
+      }
+      if (strengths.length < 2) {
+        const sorted = Object.entries(scores).sort((a,b) => b[1] - a[1]);
+        strengths = sorted.slice(0, 3).map(s => s[0]);
+      }
+      if (challenges.length < 2) {
+        const sorted = Object.entries(scores).sort((a,b) => a[1] - b[1]);
+        challenges = sorted.slice(0, 3).map(s => s[0]);
+      }
+
+      const pattern = findPattern(scores);
+
+      let html = `
+        <h2>📊 گزارش شخصیت</h2>
+        <div class="result-sub">بر اساس پاسخ‌های شما به ${totalQuestions} سوال</div>
+      `;
+
+      html += `<div style="margin: 20px 0;">`;
+      dims.forEach(d => {
+        const val = scores[d.id] || 0;
+        html += `
+          <div class="chart-item">
+            <div class="chart-label">
+              <span>${d.label}</span>
+              <span>${val}%</span>
+            </div>
+            <div class="chart-track">
+              <div class="chart-fill" style="width:${val}%; background: ${d.color};"></div>
+            </div>
+          </div>
+        `;
+      });
+      html += `</div>`;
+
+      html += `<div class="profile-box">`;
+      html += `<h3>✨ نقاط قوت</h3><div class="pill-group">`;
+      strengths.forEach(key => {
+        if (analysis.strengths[key]) {
+          html += `<span class="pill green">${analysis.strengths[key]}</span>`;
+        }
+      });
+      html += `</div>`;
+
+      html += `<h3 style="margin-top:12px;">⚡ چالش‌ها</h3><div class="pill-group">`;
+      challenges.forEach(key => {
+        if (analysis.challenges[key]) {
+          html += `<span class="pill amber">${analysis.challenges[key]}</span>`;
+        }
+      });
+      html += `</div>`;
+      html += `</div>`;
+
+      html += `
+        <div class="profile-box" style="background: #ede9fe; border-color: #8b5cf6;">
+          <h3>🧩 الگوی غالب شما</h3>
+          <p style="font-size: 1.1rem; font-weight: 600; color: #5b21b6;">${pattern.title}</p>
+          <p>${pattern.description}</p>
+        </div>
+      `;
+
+      html += `<div style="margin-top: 20px;"><h3>💡 پیشنهادات برای رشد</h3>`;
+      const suggestionKeys = challenges.slice(0, 3);
+      suggestionKeys.forEach(key => {
+        if (analysis.suggestions[key]) {
+          html += `
+            <div class="suggestion">
+              <strong>${DATA.dimensions.find(d => d.id === key)?.label || key}:</strong>
+              ${analysis.suggestions[key]}
+            </div>
+          `;
+        }
+      });
+      html += `</div>`;
+
+      resultContent.innerHTML = html;
+      showScreen('resultScreen');
+      progressFill.style.width = '100%';
+      qStatus.textContent = '✅ تکمیل';
+    }
+
+    startBtn.addEventListener('click', function() {
+      showScreen('questionScreen');
+      currentIndex = 0;
+      answers = new Array(totalQuestions).fill(null);
+      renderQuestion(0);
+    });
+
+    nextBtn.addEventListener('click', goToNext);
+    prevBtn.addEventListener('click', goToPrev);
+
+    restartBtn.addEventListener('click', function() {
+      showScreen('welcomeScreen');
+      answers = new Array(totalQuestions).fill(null);
+      currentIndex = 0;
+      progressFill.style.width = '0%';
+      qStatus.textContent = 'شروع';
+      document.querySelector('#questionCounter span:first-child').textContent = `۰ از ${totalQuestions}`;
+    });
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'ArrowRight' || e.key === ' ') {
+        e.preventDefault();
+        if (!questionScreen.classList.contains('hidden')) goToNext();
+      }
+      if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        if (!questionScreen.classList.contains('hidden')) goToPrev();
+      }
+    });
+
+    showScreen('welcomeScreen');
+  })();
+</script>
+</body>
+</html>

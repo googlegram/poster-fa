@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>تبدیل متن فارسی به صدا (Web Speech)</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f7fa;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 16px;
+            margin: 0;
+        }
+        .card {
+            background: #ffffff;
+            max-width: 600px;
+            width: 100%;
+            border-radius: 32px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08), 0 6px 12px rgba(0, 0, 0, 0.05);
+            padding: 28px 24px 32px;
+            transition: all 0.2s ease;
+            border: 1px solid rgba(0, 0, 0, 0.02);
+        }
+        h1 {
+            font-size: 1.7rem;
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 8px;
+            letter-spacing: -0.3px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        h1 small {
+            font-size: 0.9rem;
+            font-weight: 400;
+            color: #64748b;
+            margin-right: auto;
+            background: #f1f5f9;
+            padding: 4px 14px;
+            border-radius: 40px;
+        }
+        .status-box {
+            background: #f8fafc;
+            border-radius: 20px;
+            padding: 12px 18px;
+            margin: 18px 0 20px;
+            font-size: 0.9rem;
+            color: #0f172a;
+            border-right: 4px solid #3b82f6;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            min-height: 54px;
+            border: 1px solid #e9edf2;
+        }
+        .status-box .label {
+            font-weight: 500;
+            color: #475569;
+        }
+        .status-box .message {
+            color: #1e293b;
+            word-break: break-word;
+            flex: 1;
+        }
+        .status-box .message.error {
+            color: #b91c1c;
+        }
+        .status-box .message.success {
+            color: #15803d;
+        }
+        .status-box .message.warning {
+            color: #b45309;
+        }
+        textarea {
+            width: 100%;
+            height: 170px;
+            padding: 18px 16px;
+            font-size: 1.1rem;
+            font-family: inherit;
+            border: 1.5px solid #d1d9e6;
+            border-radius: 24px;
+            background: #ffffff;
+            resize: vertical;
+            transition: 0.2s;
+            color: #0f172a;
+            line-height: 1.7;
+        }
+        textarea:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15);
+        }
+        textarea::placeholder {
+            color: #94a3b8;
+            font-weight: 300;
+        }
+        .button-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin: 22px 0 18px;
+        }
+        .btn {
+            flex: 1 0 auto;
+            min-width: 90px;
+            padding: 14px 10px;
+            border: none;
+            border-radius: 60px;
+            font-size: 1rem;
+            font-weight: 600;
+            background: #f1f5f9;
+            color: #1e293b;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            border: 1px solid transparent;
+        }
+        .btn:active {
+            transform: scale(0.96);
+        }
+        .btn-primary {
+            background: #1e293b;
+            color: white;
+            box-shadow: 0 8px 16px -6px rgba(30, 41, 59, 0.2);
+        }
+        .btn-primary:active {
+            background: #0f172a;
+        }
+        .btn-primary:disabled {
+            opacity: 0.4;
+            transform: none;
+            pointer-events: none;
+        }
+        .btn-danger {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+        .btn-danger:active {
+            background: #fecaca;
+        }
+        .btn-outline {
+            background: transparent;
+            border: 1.5px solid #d1d9e6;
+        }
+        .btn-outline:active {
+            background: #f1f5f9;
+        }
+        .voice-selector {
+            width: 100%;
+            padding: 14px 16px;
+            border-radius: 40px;
+            border: 1.5px solid #d1d9e6;
+            background: white;
+            font-size: 1rem;
+            color: #0f172a;
+            margin-top: 6px;
+            appearance: auto;
+            cursor: pointer;
+        }
+        .voice-selector:focus {
+            outline: none;
+            border-color: #3b82f6;
+        }
+        .footer-note {
+            font-size: 0.8rem;
+            color: #94a3b8;
+            text-align: center;
+            margin-top: 22px;
+            border-top: 1px solid #e9edf2;
+            padding-top: 20px;
+            letter-spacing: 0.2px;
+        }
+        .badge-voice {
+            background: #e9edf2;
+            padding: 3px 12px;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            color: #334155;
+        }
+        @media (max-width: 480px) {
+            .card { padding: 20px 16px; }
+            .btn { min-width: 70px; padding: 12px 6px; font-size: 0.9rem; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h1>
+        🎙️ متن به صدا
+        <small>fa-IR</small>
+    </h1>
+
+    <!-- وضعیت و خطاها -->
+    <div class="status-box" id="statusBox">
+        <span class="label">📌 وضعیت:</span>
+        <span class="message" id="statusMessage">آماده‌ی پخش</span>
+    </div>
+
+    <!-- ورودی متن -->
+    <textarea id="textInput" placeholder="متن فارسی خود را اینجا بنویسید ..."></textarea>
+
+    <!-- دکمه‌ها -->
+    <div class="button-group">
+        <button class="btn btn-primary" id="speakBtn">▶️ پخش</button>
+        <button class="btn btn-danger" id="stopBtn">⏹️ توقف</button>
+        <button class="btn btn-outline" id="clearBtn">🗑️ پاک کردن</button>
+    </div>
+
+    <!-- انتخابگر صدا -->
+    <label for="voiceSelect" style="font-weight: 500; color: #334155; display: block; margin-top: 8px; font-size: 0.9rem;">🎤 انتخاب صدا:</label>
+    <select class="voice-selector" id="voiceSelect"></select>
+
+    <div class="footer-note">
+        ⚡ Web Speech API · بدون کلید · بدون سرور
+    </div>
+</div>
+
+<script>
+    (function() {
+        'use strict';
+
+        // ---------- DOM refs ----------
+        const textInput = document.getElementById('textInput');
+        const speakBtn = document.getElementById('speakBtn');
+        const stopBtn = document.getElementById('stopBtn');
+        const clearBtn = document.getElementById('clearBtn');
+        const voiceSelect = document.getElementById('voiceSelect');
+        const statusMessage = document.getElementById('statusMessage');
+
+        // ---------- state ----------
+        let currentUtterance = null;
+        let isSpeaking = false;
+        let voicesList = [];
+        let selectedVoice = null;
+        let isFaVoiceAvailable = false;
+
+        // ---------- helpers ----------
+        function setStatus(text, type = 'info') {
+            statusMessage.textContent = text;
+            statusMessage.className = 'message';
+            if (type === 'error') statusMessage.classList.add('error');
+            else if (type === 'success') statusMessage.classList.add('success');
+            else if (type === 'warning') statusMessage.classList.add('warning');
+        }
+
+        // ---------- load voices & populate dropdown ----------
+        function loadVoices() {
+            return new Promise((resolve) => {
+                let voices = window.speechSynthesis.getVoices();
+                if (voices.length > 0) {
+                    resolve(voices);
+                    return;
+                }
+                // اگر صداها هنوز بارگذاری نشده‌اند
+                window.speechSynthesis.onvoiceschanged = () => {
+                    const newVoices = window.speechSynthesis.getVoices();
+                    resolve(newVoices);
+                };
+                // fallback timeout
+                setTimeout(() => {
+                    const fallback = window.speechSynthesis.getVoices();
+                    resolve(fallback);
+                }, 1500);
+            });
+        }
+
+        // populate dropdown and detect Persian voice
+        function populateVoiceList(voices) {
+            voicesList = voices;
+            voiceSelect.innerHTML = '';
+
+            // فیلتر صداهای فارسی (fa-IR, fa, persian, iran)
+            const faVoices = voices.filter(v =>
+                v.lang && (
+                    v.lang.startsWith('fa') ||
+                    v.lang.includes('IR') ||
+                    v.lang.toLowerCase().includes('persian') ||
+                    v.lang.toLowerCase().includes('farsi')
+                )
+            );
+
+            // اگر صدای فارسی وجود داشت
+            if (faVoices.length > 0) {
+                isFaVoiceAvailable = true;
+                // اولویت با صداهایی که دقیقاً fa-IR دارند
+                const exactFaIR = faVoices.filter(v => v.lang === 'fa-IR');
+                const preferred = exactFaIR.length > 0 ? exactFaIR : faVoices;
+
+                preferred.forEach(voice => {
+                    const option = document.createElement('option');
+                    option.value = voice.voiceURI;
+                    option.textContent = `${voice.name} (${voice.lang})`;
+                    if (voice.lang === 'fa-IR' || voice.lang.startsWith('fa')) {
+                        option.selected = true;
+                    }
+                    voiceSelect.appendChild(option);
+                });
+
+                // انتخاب اولین صدای فارسی به عنوان پیش‌فرض
+                if (preferred.length > 0) {
+                    selectedVoice = preferred[0];
+                    voiceSelect.value = selectedVoice.voiceURI;
+                }
+
+                setStatus(`✅ ${faVoices.length} صدای فارسی پیدا شد`, 'success');
+            } else {
+                // هیچ صدای فارسی موجود نیست
+                isFaVoiceAvailable = false;
+                // نمایش همه صداها در لیست (به کاربر نشان دهیم)
+                if (voices.length === 0) {
+                    const option = document.createElement('option');
+                    option.value = '';
+                    option.textContent = '⚠️ هیچ صدایی یافت نشد';
+                    voiceSelect.appendChild(option);
+                    setStatus('❌ صدایی در مرورگر یافت نشد!', 'error');
+                } else {
+                    // همه صداها را نمایش بده
+                    voices.forEach(voice => {
+                        const option = document.createElement('option');
+                        option.value = voice.voiceURI;
+                        option.textContent = `${voice.name} (${voice.lang})`;
+                        voiceSelect.appendChild(option);
+                    });
+                    setStatus('⚠️ صدای فارسی موجود نیست. لطفاً یک صدای دیگر انتخاب کنید.', 'warning');
+                }
+                // در هر صورت اگر صدای فارسی نبود، یک پیام واضح
+                if (!isFaVoiceAvailable) {
+                    setStatus('❌ صدای فارسی (fa-IR) در مرورگر یافت نشد! لطفاً از مرورگر دیگری امتحان کنید.', 'error');
+                }
+            }
+
+            // اگر صداهای فارسی موجود نبود، اما حداقل یک صدا هست، اولین را انتخاب کن
+            if (!isFaVoiceAvailable && voices.length > 0) {
+                selectedVoice = voices[0];
+                voiceSelect.value = selectedVoice.voiceURI;
+            } else if (isFaVoiceAvailable && selectedVoice) {
+                // already set
+            } else if (voices.length > 0) {
+                selectedVoice = voices[0];
+                voiceSelect.value = selectedVoice.voiceURI;
+            }
+        }
+
+        // ---------- speak text ----------
+        function speakText(text) {
+            if (!text || text.trim() === '') {
+                setStatus('⚠️ لطفاً متنی برای پخش وارد کنید.', 'warning');
+                return;
+            }
+
+            if (!('speechSynthesis' in window)) {
+                setStatus('❌ مرورگر از Web Speech API پشتیبانی نمی‌کند.', 'error');
+                return;
+            }
+
+            // اگر در حال پخش هستیم، ابتدا متوقف کن
+            if (isSpeaking) {
+                window.speechSynthesis.cancel();
+                isSpeaking = false;
+                currentUtterance = null;
+            }
+
+            // ساخت utterance
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'fa-IR';
+            utterance.rate = 0.95;
+            utterance.pitch = 1.0;
+            utterance.volume = 1;
+
+            // انتخاب صدا
+            if (selectedVoice) {
+                utterance.voice = selectedVoice;
+            } else {
+                // اگر صدایی انتخاب نشده، سعی کن صدای فارسی پیدا کنی
+                const voices = window.speechSynthesis.getVoices();
+                const faVoice = voices.find(v => v.lang && v.lang.startsWith('fa'));
+                if (faVoice) {
+                    utterance.voice = faVoice;
+                    selectedVoice = faVoice;
+                } else {
+                    // اگر هیچ صدای فارسی نبود، از اولین صدا استفاده کن
+                    if (voices.length > 0) {
+                        utterance.voice = voices[0];
+                    }
+                }
+            }
+
+            // رویدادها
+            utterance.onstart = function() {
+                isSpeaking = true;
+                speakBtn.disabled = true;
+                setStatus('🔊 در حال پخش ...', 'info');
+            };
+
+            utterance.onend = function() {
+                isSpeaking = false;
+                speakBtn.disabled = false;
+                setStatus('✅ پخش کامل شد', 'success');
+                currentUtterance = null;
+            };
+
+            utterance.onerror = function(event) {
+                isSpeaking = false;
+                speakBtn.disabled = false;
+                currentUtterance = null;
+                // اگر خطا مربوط به زبان باشد یا هر خطای دیگر
+                let errorMsg = '❌ خطا در پخش: ';
+                if (event.error === 'language-unavailable') {
+                    errorMsg += 'زبان فارسی پشتیبانی نمی‌شود.';
+                } else if (event.error === 'synthesis-failed') {
+                    errorMsg += 'ساخت صدا ناموفق.';
+                } else {
+                    errorMsg += event.error || 'خطای ناشناخته.';
+                }
+                setStatus(errorMsg, 'error');
+                console.error('SpeechSynthesis error:', event);
+            };
+
+            currentUtterance = utterance;
+            window.speechSynthesis.speak(utterance);
+        }
+
+        // ---------- stop speaking ----------
+        function stopSpeaking() {
+            if (window.speechSynthesis) {
+                window.speechSynthesis.cancel();
+                isSpeaking = false;
+                speakBtn.disabled = false;
+                currentUtterance = null;
+                setStatus('⏹️ پخش متوقف شد', 'info');
+            }
+        }
+
+        // ---------- clear text ----------
+        function clearText() {
+            textInput.value = '';
+            if (isSpeaking) {
+                stopSpeaking();
+            }
+            setStatus('🗑️ متن پاک شد', 'info');
+            textInput.focus();
+        }
+
+        // ---------- refresh voice selection when dropdown changes ----------
+        function onVoiceSelectChange() {
+            const uri = voiceSelect.value;
+            if (!uri) {
+                selectedVoice = null;
+                return;
+            }
+            const found = voicesList.find(v => v.voiceURI === uri);
+            if (found) {
+                selectedVoice = found;
+                // بررسی کن که آیا صدای فارسی است
+                if (found.lang && found.lang.startsWith('fa')) {
+                    setStatus(`✅ صدای "${found.name}" انتخاب شد (فارسی)`, 'success');
+                } else {
+                    setStatus(`ℹ️ صدای "${found.name}" (${found.lang}) انتخاب شد`, 'info');
+                }
+            } else {
+                selectedVoice = null;
+            }
+        }
+
+        // ---------- init ----------
+        async function init() {
+            // ابتدا چک کردن پشتیبانی
+            if (!('speechSynthesis' in window)) {
+                setStatus('❌ مرورگر شما از Web Speech پشتیبانی نمی‌کند.', 'error');
+                speakBtn.disabled = true;
+                stopBtn.disabled = true;
+                return;
+            }
+
+            // بارگذاری صداها
+            try {
+                const voices = await loadVoices();
+                populateVoiceList(voices);
+
+                // اگر صدای فارسی پیدا نشد، پیام واضح
+                if (!isFaVoiceAvailable) {
+                    // اما باز هم اجازه بده کاربر از صداهای دیگر استفاده کند
+                    setStatus('⚠️ صدای فارسی موجود نیست. از لیست زیر یک صدا انتخاب کنید.', 'warning');
+                }
+
+                // رویداد تغییر انتخاب
+                voiceSelect.addEventListener('change', onVoiceSelectChange);
+
+                // دکمه‌ها
+                speakBtn.addEventListener('click', function() {
+                    const text = textInput.value;
+                    speakText(text);
+                });
+
+                stopBtn.addEventListener('click', function() {
+                    stopSpeaking();
+                });
+
+                clearBtn.addEventListener('click', function() {
+                    clearText();
+                });
+
+                // میانبر اینتر (اما با shift+enter جهت جلوگیری از ارسال ناخواسته)
+                textInput.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter' && !e.shiftKey) {
+                        e.preventDefault();
+                        speakText(textInput.value);
+                    }
+                });
+
+                // اگر صداها بعداً تغییر کنند (مثلاً در کروم)
+                window.speechSynthesis.onvoiceschanged = function() {
+                    const newVoices = window.speechSynthesis.getVoices();
+                    if (newVoices.length > 0) {
+                        populateVoiceList(newVoices);
+                        // اگر قبلاً صدایی انتخاب شده بود، دوباره تنظیم کن
+                        if (voiceSelect.value) {
+                            const found = newVoices.find(v => v.voiceURI === voiceSelect.value);
+                            if (found) selectedVoice = found;
+                        }
+                    }
+                };
+
+                setStatus('✅ آماده‌ی پخش · متن فارسی را بنویسید', 'success');
+
+            } catch (err) {
+                console.error(err);
+                setStatus('❌ خطا در بارگذاری صداها: ' + err.message, 'error');
+            }
+        }
+
+        // اجرای اولیه
+        init();
+
+        // cleanup در صورت بسته شدن صفحه
+        window.addEventListener('beforeunload', function() {
+            if (window.speechSynthesis) {
+                window.speechSynthesis.cancel();
+            }
+        });
+
+    })();
+</script>
+</body>
+</html>
